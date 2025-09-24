@@ -10,3 +10,20 @@ restartPolicyMaxRetries = 10
 
 [environments.production]
 variables = { NODE_ENV = "production", PORT = "5000" }
+
+[build.phases.setup]
+nixPkgs = ["python311", "nodejs_20"]
+
+[build.phases.install]
+cmds = [
+  "python -m ensurepip --upgrade",
+  "python -m pip install --upgrade pip",
+  "python -m pip install -r requirements.txt",
+  "npm install",
+  "cd client && npm install"
+]
+
+[build.phases.build]
+cmds = [
+  "cd client && npm run build"
+]

@@ -10,7 +10,9 @@ python -m pip --version
 
 # Upgrade pip and install Python dependencies
 echo "📦 Installing Python dependencies..."
-python -m pip install --upgrade pip setuptools wheel
+python -m ensurepip --upgrade
+python -m pip install --upgrade pip
+python -m pip install --upgrade setuptools wheel
 python -m pip install -r requirements.txt
 
 # Check Node.js and npm
