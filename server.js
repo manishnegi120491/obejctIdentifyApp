@@ -277,6 +277,31 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Person Detection API is running' });
 });
 
+// Backend test endpoint
+app.get('/api/test-backend', (req, res) => {
+  console.log('Testing backend components...');
+  
+  const { exec } = require('child_process');
+  
+  exec('python test_backend.py', (error, stdout, stderr) => {
+    if (error) {
+      console.error('Backend test error:', error);
+      return res.status(500).json({ 
+        error: 'Backend test failed', 
+        details: error.message,
+        stderr: stderr
+      });
+    }
+    
+    console.log('Backend test output:', stdout);
+    res.json({
+      success: true,
+      message: 'Backend test completed',
+      output: stdout
+    });
+  });
+});
+
 // Test endpoint to debug Python script
 app.get('/api/test-detection', (req, res) => {
   console.log('Testing Python script...');
