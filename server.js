@@ -155,12 +155,46 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
           console.error('Direct execution error:', error);
           console.error('stdout:', stdout);
           console.error('stderr:', stderr);
-          return res.status(500).json({ 
-            error: 'Detection failed', 
-            details: error.message,
-            stdout: stdout,
-            stderr: stderr
+          
+          // Try fallback detection
+          console.log('Trying fallback detection...');
+          exec(`python fallback_detect.py "${uploadedFile.filename}"`, (fallbackError, fallbackStdout, fallbackStderr) => {
+            if (fallbackError) {
+              console.error('Fallback detection also failed:', fallbackError);
+              return res.status(500).json({ 
+                error: 'Both main and fallback detection failed', 
+                details: error.message,
+                stdout: stdout,
+                stderr: stderr,
+                fallbackError: fallbackError.message,
+                fallbackStdout: fallbackStdout,
+                fallbackStderr: fallbackStderr
+              });
+            }
+            
+            console.log('Fallback detection completed');
+            console.log('Fallback stdout:', fallbackStdout);
+            
+            // Try to read result from fallback
+            const resultFile = `result_${uploadedFile.filename}.json`;
+            try {
+              if (fs.existsSync(resultFile)) {
+                const resultData = fs.readFileSync(resultFile, 'utf8');
+                const jsonResult = JSON.parse(resultData);
+                fs.unlinkSync(resultFile);
+                sendResponse(jsonResult);
+              } else {
+                throw new Error('Fallback result file not created');
+              }
+            } catch (fileError) {
+              console.error('Fallback file reading error:', fileError);
+              res.status(500).json({ 
+                error: 'Fallback detection completed but result file not found', 
+                details: fileError.message
+              });
+            }
           });
+          return;
         }
         
         console.log('Direct execution completed');
