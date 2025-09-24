@@ -315,6 +315,32 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Person Detection API is running' });
 });
 
+// Environment check endpoint
+app.get('/api/env-check', (req, res) => {
+  const { exec } = require('child_process');
+  
+  exec('which python3 && python3 --version && which node && node --version', (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({
+        error: 'Environment check failed',
+        details: error.message,
+        stderr: stderr
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Environment check completed',
+      output: stdout,
+      environment: {
+        node: process.version,
+        platform: process.platform,
+        arch: process.arch
+      }
+    });
+  });
+});
+
 // Backend test endpoint
 app.get('/api/test-backend', (req, res) => {
   console.log('Testing backend components...');
@@ -346,22 +372,37 @@ app.get('/api/simple-test', (req, res) => {
   
   const { exec } = require('child_process');
   
-  exec('python3 simple_test.py', (error, stdout, stderr) => {
-    if (error) {
-      console.error('Simple test error:', error);
+  // First check if python3 exists
+  exec('which python3', (whichError, whichStdout, whichStderr) => {
+    if (whichError) {
+      console.error('Python3 not found:', whichError);
       return res.status(500).json({ 
-        error: 'Simple test failed', 
-        details: error.message,
-        stdout: stdout,
-        stderr: stderr
+        error: 'Python3 not found in PATH', 
+        details: whichError.message,
+        stderr: whichStderr
       });
     }
     
-    console.log('Simple test output:', stdout);
-    res.json({
-      success: true,
-      message: 'Simple test completed',
-      output: stdout
+    console.log('Python3 found at:', whichStdout.trim());
+    
+    // Now try to run the Python script
+    exec('python3 simple_test.py', (error, stdout, stderr) => {
+      if (error) {
+        console.error('Simple test error:', error);
+        return res.status(500).json({ 
+          error: 'Simple test failed', 
+          details: error.message,
+          stdout: stdout,
+          stderr: stderr
+        });
+      }
+      
+      console.log('Simple test output:', stdout);
+      res.json({
+        success: true,
+        message: 'Simple test completed',
+        output: stdout
+      });
     });
   });
 });
