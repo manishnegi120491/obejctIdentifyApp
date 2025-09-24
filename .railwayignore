@@ -1,4 +1,4 @@
-# Railway ignore file to force auto-detection
+# Railway ignore file to force Nixpacks (not Docker)
 Dockerfile
 docker-compose.yml
 .dockerignore
@@ -6,3 +6,4 @@ Dockerfile.*
 docker-compose.*
 build.sh
 check-docker.sh
+railway-start.sh
