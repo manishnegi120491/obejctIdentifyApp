@@ -153,9 +153,13 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
         clearTimeout(timeoutId); // Clear the timeout
         if (error) {
           console.error('Direct execution error:', error);
+          console.error('stdout:', stdout);
+          console.error('stderr:', stderr);
           return res.status(500).json({ 
             error: 'Detection failed', 
-            details: error.message 
+            details: error.message,
+            stdout: stdout,
+            stderr: stderr
           });
         }
         
@@ -297,6 +301,32 @@ app.get('/api/test-backend', (req, res) => {
     res.json({
       success: true,
       message: 'Backend test completed',
+      output: stdout
+    });
+  });
+});
+
+// Simple Python test endpoint
+app.get('/api/simple-test', (req, res) => {
+  console.log('Running simple Python test...');
+  
+  const { exec } = require('child_process');
+  
+  exec('python simple_test.py', (error, stdout, stderr) => {
+    if (error) {
+      console.error('Simple test error:', error);
+      return res.status(500).json({ 
+        error: 'Simple test failed', 
+        details: error.message,
+        stdout: stdout,
+        stderr: stderr
+      });
+    }
+    
+    console.log('Simple test output:', stdout);
+    res.json({
+      success: true,
+      message: 'Simple test completed',
       output: stdout
     });
   });

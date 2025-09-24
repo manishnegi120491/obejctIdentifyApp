@@ -18,11 +18,29 @@ def detect_person_in_image(image_filename):
     # Load model
     model_path = "person_detector_final.pth"
     if not os.path.exists(model_path):
-        return {
-            "error": "No trained model found!",
-            "detections": [],
-            "outputFilename": None
-        }
+        print(f"Model file not found at {model_path}, trying to download...")
+        try:
+            import subprocess
+            result = subprocess.run(['python', 'download_model.py'], capture_output=True, text=True)
+            if result.returncode != 0:
+                print(f"Download failed: {result.stderr}")
+                return {
+                    "error": f"No trained model found and download failed: {result.stderr}",
+                    "detections": [],
+                    "outputFilename": None
+                }
+            if not os.path.exists(model_path):
+                return {
+                    "error": "No trained model found and download failed!",
+                    "detections": [],
+                    "outputFilename": None
+                }
+        except Exception as e:
+            return {
+                "error": f"No trained model found and download failed: {str(e)}",
+                "detections": [],
+                "outputFilename": None
+            }
     
     print(f"Loading model: {model_path}")
     
