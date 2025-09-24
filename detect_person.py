@@ -21,7 +21,7 @@ def detect_person_in_image(image_filename):
         print(f"Model file not found at {model_path}, trying to download...")
         try:
             import subprocess
-            result = subprocess.run(['python', 'download_model.py'], capture_output=True, text=True)
+            result = subprocess.run(['python3', 'download_model.py'], capture_output=True, text=True)
             if result.returncode != 0:
                 print(f"Download failed: {result.stderr}")
                 return {

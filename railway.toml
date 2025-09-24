@@ -16,10 +16,10 @@ nixPkgs = ["python311", "nodejs_20"]
 
 [build.phases.install]
 cmds = [
-  "python -m ensurepip --upgrade",
-  "python -m pip install --upgrade pip",
-  "python -m pip install -r requirements.txt",
-  "python download_model.py",
+  "python3 -m ensurepip --upgrade",
+  "python3 -m pip install --upgrade pip",
+  "python3 -m pip install -r requirements.txt",
+  "python3 download_model.py",
   "npm install",
   "cd client && npm install"
 ]
