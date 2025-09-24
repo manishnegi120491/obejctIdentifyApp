@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import './DetectionResults.css';
 
@@ -9,9 +9,8 @@ const DetectionResults = ({ results, loading, error, onDetectionStart, onDetecti
   const [croppedImages, setCroppedImages] = useState({});
   const fileInputRef = useRef(null);
 
-  const detections = results?.detections || [];
+  const detections = useMemo(() => results?.detections || [], [results?.detections]);
   const totalDetections = results?.totalDetections || 0;
-  const imageSize = results?.imageSize || { width: 0, height: 0 };
   const imageUrl = results?.imageUrl || null;
   const outputImageUrl = results?.outputImageUrl || null;
   
@@ -59,19 +58,14 @@ const DetectionResults = ({ results, loading, error, onDetectionStart, onDetecti
   const createPersonThumbnails = () => {
     if (!detections || detections.length === 0 || !imageUrl) return [];
 
-    return detections.map((detection, index) => {
-      const { x1, y1, x2, y2 } = detection.boundingBox;
-      const width = x2 - x1;
-      const height = y2 - y1;
-      
+    return detections.map((detection) => {
       return {
         id: detection.id,
         confidence: detection.confidence,
         boundingBox: detection.boundingBox,
         thumbnailUrl: imageUrl,
         fullImageUrl: imageUrl,
-        originalImageUrl: imageUrl,
-        boundingBox: detection.boundingBox
+        originalImageUrl: imageUrl
       };
     });
   };
