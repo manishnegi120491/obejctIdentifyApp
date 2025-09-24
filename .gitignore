@@ -1,5 +1,5 @@
-# Large model files and datasets
-*.pth
+# Large model files and datasets (exclude epoch files, keep final model)
+person_detector_epoch_*.pth
 *.pkl
 *.h5
 *.hdf5
