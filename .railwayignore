@@ -1,0 +1,4 @@
+# Railway ignore file to force auto-detection
+Dockerfile
+docker-compose.yml
+.dockerignore
