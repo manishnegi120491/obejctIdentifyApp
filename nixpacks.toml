@@ -1,16 +1,10 @@
 [phases.setup]
-nixPkgs = ["python311", "nodejs_20"]
+nixPkgs = ["python311", "nodejs_20", "pip", "setuptools", "wheel"]
 
 [phases.install]
 cmds = [
-  "pip install -r requirements.txt",
-  "npm install",
-  "cd client && npm install"
-]
-
-[phases.build]
-cmds = [
-  "cd client && npm run build"
+  "chmod +x build.sh",
+  "./build.sh"
 ]
 
 [start]
