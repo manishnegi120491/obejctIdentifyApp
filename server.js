@@ -149,7 +149,9 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
       console.log('Executing Python script directly...');
       const { exec } = require('child_process');
       
-      exec(`python3 detect_person.py "${uploadedFile.filename}"`, (error, stdout, stderr) => {
+      // Use python3 for Railway deployment, python for local Windows
+      const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
+      exec(`${pythonCmd} detect_person.py "${uploadedFile.filename}"`, (error, stdout, stderr) => {
         clearTimeout(timeoutId); // Clear the timeout
         if (error) {
           console.error('Direct execution error:', error);
@@ -158,7 +160,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
           
           // Try fallback detection
           console.log('Trying fallback detection...');
-          exec(`python3 fallback_detect.py "${uploadedFile.filename}"`, (fallbackError, fallbackStdout, fallbackStderr) => {
+          exec(`${pythonCmd} fallback_detect.py "${uploadedFile.filename}"`, (fallbackError, fallbackStdout, fallbackStderr) => {
             if (fallbackError) {
               console.error('Fallback detection also failed:', fallbackError);
               return res.status(500).json({ 
@@ -347,7 +349,8 @@ app.get('/api/test-backend', (req, res) => {
   
   const { exec } = require('child_process');
   
-  exec('python3 test_backend.py', (error, stdout, stderr) => {
+  const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
+  exec(`${pythonCmd} test_backend.py`, (error, stdout, stderr) => {
     if (error) {
       console.error('Backend test error:', error);
       return res.status(500).json({ 
@@ -372,21 +375,23 @@ app.get('/api/simple-test', (req, res) => {
   
   const { exec } = require('child_process');
   
-  // First check if python3 exists
-  exec('which python3', (whichError, whichStdout, whichStderr) => {
+  // First check if python exists (Windows uses 'python', Linux uses 'python3')
+  const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
+  const whichCmd = process.platform === 'win32' ? 'where' : 'which';
+  exec(`${whichCmd} ${pythonCmd}`, (whichError, whichStdout, whichStderr) => {
     if (whichError) {
-      console.error('Python3 not found:', whichError);
+      console.error('Python not found:', whichError);
       return res.status(500).json({ 
-        error: 'Python3 not found in PATH', 
+        error: 'Python not found in PATH', 
         details: whichError.message,
         stderr: whichStderr
       });
     }
     
-    console.log('Python3 found at:', whichStdout.trim());
+    console.log('Python found at:', whichStdout.trim());
     
     // Now try to run the Python script
-    exec('python3 simple_test.py', (error, stdout, stderr) => {
+    exec(`${pythonCmd} simple_test.py`, (error, stdout, stderr) => {
       if (error) {
         console.error('Simple test error:', error);
         return res.status(500).json({ 

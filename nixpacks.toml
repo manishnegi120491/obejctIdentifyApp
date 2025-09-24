@@ -3,9 +3,11 @@ nixPkgs = ["python311", "nodejs_20"]
 
 [phases.install]
 cmds = [
+  "which python3",
+  "python3 --version", 
+  "python3 -m ensurepip --upgrade",
   "python3 -m pip install --upgrade pip",
   "python3 -m pip install -r requirements.txt",
-  "python3 download_model.py",
   "npm install",
   "cd client && npm install"
 ]
@@ -14,6 +16,3 @@ cmds = [
 cmds = [
   "cd client && npm run build"
 ]
-
-[start]
-cmd = "node server.js"
