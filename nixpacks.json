@@ -1,0 +1,24 @@
+{
+  "providers": ["nixpacks"],
+  "build": {
+    "phases": {
+      "setup": {
+        "nixPkgs": ["python311", "nodejs_20", "pip"]
+      },
+      "install": {
+        "cmds": [
+          "python3 --version",
+          "pip3 install --upgrade pip",
+          "pip3 install -r requirements.txt",
+          "npm install",
+          "cd client && npm install"
+        ]
+      },
+      "build": {
+        "cmds": [
+          "cd client && npm run build"
+        ]
+      }
+    }
+  }
+}

@@ -7,3 +7,4 @@ docker-compose.*
 build.sh
 check-docker.sh
 railway-start.sh
+railway.json
