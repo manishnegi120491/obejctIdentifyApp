@@ -1,0 +1,17 @@
+[phases.setup]
+nixPkgs = ["python39", "nodejs-16_x"]
+
+[phases.install]
+cmds = [
+  "pip install -r requirements.txt",
+  "npm install",
+  "cd client && npm install"
+]
+
+[phases.build]
+cmds = [
+  "cd client && npm run build"
+]
+
+[start]
+cmd = "node server.js"
