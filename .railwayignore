@@ -8,3 +8,4 @@ build.sh
 check-docker.sh
 railway-start.sh
 railway.json
+railway.yaml
