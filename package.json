@@ -16,6 +16,10 @@
     "deploy:vercel": "vercel",
     "deploy:free": "bash deploy-free.sh"
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "multer": "^1.4.5-lts.1",
