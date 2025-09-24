@@ -2,7 +2,14 @@ services:
   - type: web
     name: person-detection-app
     env: node
-    buildCommand: npm install && cd client && npm install && npm run build
+    buildCommand: |
+      # Install Python dependencies
+      python3 -m pip install --upgrade pip
+      python3 -m pip install -r requirements.txt
+      python3 download_model.py
+      # Install Node.js dependencies
+      npm install
+      cd client && npm install && npm run build
     startCommand: node server.js
     healthCheckPath: /api/health
     envVars:
