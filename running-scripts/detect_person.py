@@ -54,8 +54,12 @@ def detect_person_in_image(image_filename):
     print("Model loaded successfully!")
     
     # Process the specific image
-    image_dir = "image"
-    img_path = os.path.join(image_dir, image_filename)
+    # Handle both relative and absolute paths
+    if os.path.isabs(image_filename) or image_filename.startswith('../'):
+        img_path = image_filename
+    else:
+        image_dir = "image"
+        img_path = os.path.join(image_dir, image_filename)
     
     if not os.path.exists(img_path):
         return {
@@ -90,7 +94,8 @@ def detect_person_in_image(image_filename):
         print(f"   Filtered out (false positives): {len(filtered_results['filtered_boxes'])}")
         
         # Create clean visualization
-        output_filename = create_clean_visualization(img, filtered_results, image_filename)
+        filename_only = os.path.basename(image_filename)
+        output_filename = create_clean_visualization(img, filtered_results, filename_only)
         
         # Prepare detection results for JSON
         detections = []
@@ -296,7 +301,9 @@ if __name__ == "__main__":
     result = detect_person_in_image(image_filename)
     
     # Write result to file for Node.js to read
-    result_file = f"result_{image_filename}.json"
+    # Extract just the filename without path for the result file
+    filename_only = os.path.basename(image_filename)
+    result_file = f"result_{filename_only}.json"
     with open(result_file, 'w') as f:
         json.dump(result, f)
     
