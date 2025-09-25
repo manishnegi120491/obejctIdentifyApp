@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "React Node.js app for person detection using PyTorch",
   "main": "server.js",
+  "homepage": ".",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -12,6 +13,7 @@
     "heroku-postbuild": "npm run client-install && npm run build",
     "railway-build": "npm run client-install && npm run build",
     "render-build": "npm run client-install && npm run build",
+    "render-start": "node server.js",
     "deploy:railway": "echo 'Go to https://railway.app and deploy from GitHub'",
     "deploy:render": "echo 'Go to https://render.com and create Web Service'",
     "deploy:vercel": "vercel",

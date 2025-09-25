@@ -7,9 +7,9 @@ services:
       python3 -m pip install --upgrade pip
       python3 -m pip install -r requirements.txt
       # Install Node.js dependencies
-      npm install
-      cd client && npm install && npm run build
-    startCommand: node server.js
+      npm install --verbose
+      cd client && npm install --verbose && npm run build
+    startCommand: npm run render-start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
