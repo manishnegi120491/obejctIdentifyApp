@@ -9,7 +9,10 @@ services:
       # Install Node.js dependencies
       npm install --verbose
       cd client && npm install --verbose && npm run build
-    startCommand: npm run render-start
+      # Verify installation
+      ls -la
+      ls -la node_modules
+    startCommand: node server.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV

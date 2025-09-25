@@ -23,6 +23,10 @@
     "node": "18.x",
     "npm": "8.x"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manishnegi120491/obejctIdentifyApp.git"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "multer": "^1.4.5-lts.1",
