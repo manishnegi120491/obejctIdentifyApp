@@ -151,7 +151,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
       
       // Use python3 for Railway deployment, python for local Windows
       const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
-      exec(`${pythonCmd} ../running-scripts/detect_person.py "${uploadedFile.filename}"`, (error, stdout, stderr) => {
+      exec(`cd ../running-scripts && ${pythonCmd} detect_person.py "${uploadedFile.filename}"`, (error, stdout, stderr) => {
         clearTimeout(timeoutId); // Clear the timeout
         if (error) {
           console.error('Direct execution error:', error);
@@ -160,7 +160,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
           
           // Try fallback detection
           console.log('Trying fallback detection...');
-          exec(`${pythonCmd} ../running-scripts/fallback_detect.py "${uploadedFile.filename}"`, (fallbackError, fallbackStdout, fallbackStderr) => {
+          exec(`cd ../running-scripts && ${pythonCmd} fallback_detect.py "${uploadedFile.filename}"`, (fallbackError, fallbackStdout, fallbackStderr) => {
             if (fallbackError) {
               console.error('Fallback detection also failed:', fallbackError);
               return res.status(500).json({ 
@@ -350,7 +350,7 @@ app.get('/api/test-backend', (req, res) => {
   const { exec } = require('child_process');
   
   const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
-  exec(`${pythonCmd} ../test-scripts/test_backend.py`, (error, stdout, stderr) => {
+  exec(`cd ../test-scripts && ${pythonCmd} test_backend.py`, (error, stdout, stderr) => {
     if (error) {
       console.error('Backend test error:', error);
       return res.status(500).json({ 
@@ -391,7 +391,7 @@ app.get('/api/simple-test', (req, res) => {
     console.log('Python found at:', whichStdout.trim());
     
     // Now try to run the Python script
-    exec(`${pythonCmd} ../test-scripts/simple_test.py`, (error, stdout, stderr) => {
+    exec(`cd ../test-scripts && ${pythonCmd} simple_test.py`, (error, stdout, stderr) => {
       if (error) {
         console.error('Simple test error:', error);
         return res.status(500).json({ 
