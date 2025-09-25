@@ -9,13 +9,7 @@
     "dev": "nodemon server.js",
     "client": "cd ../client && npm start",
     "client-install": "cd ../client && npm install",
-    "build": "cd ../client && npm run build",
-    "heroku-postbuild": "npm run client-install && npm run build",
-    "render-build": "npm run client-install && npm run build",
-    "render-start": "cd /opt/render/project && node server.js",
-    "deploy:render": "echo 'Go to https://render.com and create Web Service'",
-    "deploy:vercel": "vercel",
-    "deploy:free": "bash deploy-free.sh"
+    "build": "cd ../client && npm run build"
   },
   "engines": {
     "node": "18.x",

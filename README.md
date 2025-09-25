@@ -17,7 +17,6 @@ person-detection-app/
 │   ├── server.js          # Express server
 │   ├── package.json       # Backend dependencies
 │   ├── requirements.txt   # Python dependencies
-│   └── render.yaml        # Render deployment config
 ├── running-scripts/       # Main execution scripts
 │   ├── detect_person.py   # Person detection script
 │   ├── train_person.py    # Model training script
@@ -26,7 +25,6 @@ person-detection-app/
 │   ├── download_model.py  # Model downloader
 │   ├── fallback_detect.py # Fallback detection
 │   ├── filter_person.py   # Person filtering
-│   └── setup_deployment.py # Deployment setup
 ├── test-scripts/          # Testing and validation
 │   ├── test_backend.py    # Backend testing
 │   ├── test_model.py      # Model testing
@@ -125,18 +123,6 @@ npm run detect
 cd running-scripts && python download_model.py
 ```
 
-## 🚀 Deployment
-
-### Render (Recommended)
-```bash
-npm run deploy:render
-```
-
-### Vercel
-```bash
-npm run deploy:vercel
-```
-
 ## 📁 Folder Descriptions
 
 ### `client/` - React Frontend
@@ -155,7 +141,6 @@ npm run deploy:vercel
 - Core person detection logic
 - Model training scripts
 - Image processing utilities
-- Deployment setup scripts
 
 ### `test-scripts/` - Testing and Validation
 - Comprehensive test suite

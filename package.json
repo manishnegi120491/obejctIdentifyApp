@@ -14,9 +14,7 @@
     "install-all": "npm run server-install && npm run client-install",
     "test": "cd test-scripts && python test_backend.py",
     "train": "cd running-scripts && python train_person.py",
-    "detect": "cd running-scripts && python detect_person.py",
-    "deploy:render": "cd server && npm run deploy:render",
-    "deploy:vercel": "cd server && npm run deploy:vercel"
+    "detect": "cd running-scripts && python detect_person.py"
   },
   "engines": {
     "node": "18.x",
