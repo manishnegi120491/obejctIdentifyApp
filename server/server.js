@@ -11,12 +11,12 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Create necessary directories
-const uploadDir = path.join(__dirname, 'uploads');
-const outputDir = path.join(__dirname, 'outputs');
-const imageDir = path.join(__dirname, 'image');
+const uploadDir = path.join(__dirname, '../uploads');
+const outputDir = path.join(__dirname, '../outputs');
+const imageDir = path.join(__dirname, '../image');
 
 [uploadDir, outputDir, imageDir].forEach(dir => {
   if (!fs.existsSync(dir)) {
@@ -151,7 +151,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
       
       // Use python3 for Railway deployment, python for local Windows
       const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
-      exec(`${pythonCmd} detect_person.py "${uploadedFile.filename}"`, (error, stdout, stderr) => {
+      exec(`${pythonCmd} ../running-scripts/detect_person.py "${uploadedFile.filename}"`, (error, stdout, stderr) => {
         clearTimeout(timeoutId); // Clear the timeout
         if (error) {
           console.error('Direct execution error:', error);
@@ -160,7 +160,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
           
           // Try fallback detection
           console.log('Trying fallback detection...');
-          exec(`${pythonCmd} fallback_detect.py "${uploadedFile.filename}"`, (fallbackError, fallbackStdout, fallbackStderr) => {
+          exec(`${pythonCmd} ../running-scripts/fallback_detect.py "${uploadedFile.filename}"`, (fallbackError, fallbackStdout, fallbackStderr) => {
             if (fallbackError) {
               console.error('Fallback detection also failed:', fallbackError);
               return res.status(500).json({ 
@@ -350,7 +350,7 @@ app.get('/api/test-backend', (req, res) => {
   const { exec } = require('child_process');
   
   const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
-  exec(`${pythonCmd} test_backend.py`, (error, stdout, stderr) => {
+  exec(`${pythonCmd} ../test-scripts/test_backend.py`, (error, stdout, stderr) => {
     if (error) {
       console.error('Backend test error:', error);
       return res.status(500).json({ 
@@ -391,7 +391,7 @@ app.get('/api/simple-test', (req, res) => {
     console.log('Python found at:', whichStdout.trim());
     
     // Now try to run the Python script
-    exec(`${pythonCmd} simple_test.py`, (error, stdout, stderr) => {
+    exec(`${pythonCmd} ../test-scripts/simple_test.py`, (error, stdout, stderr) => {
       if (error) {
         console.error('Simple test error:', error);
         return res.status(500).json({ 
@@ -424,7 +424,7 @@ app.get('/api/test-detection', (req, res) => {
     timeout: 120000
   };
 
-  PythonShell.run('detect_person.py', options, (err, results) => {
+  PythonShell.run('../running-scripts/detect_person.py', options, (err, results) => {
     if (err) {
       console.error('Python test error:', err);
       return res.status(500).json({ error: 'Python test failed', details: err.message });

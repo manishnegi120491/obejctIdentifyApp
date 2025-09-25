@@ -11,7 +11,7 @@ import sys
 def download_model():
     """Download the person detection model."""
     model_url = "https://github.com/manishnegi120491/obejctIdentifyApp/releases/download/v1.0/person_detector_final.pth"
-    model_path = "person_detector_final.pth"
+    model_path = "../models/person_detector_final.pth"
     
     if os.path.exists(model_path):
         print(f"Model file {model_path} already exists.")

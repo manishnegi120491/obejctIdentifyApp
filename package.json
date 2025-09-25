@@ -1,23 +1,23 @@
 {
   "name": "person-detection-app",
   "version": "1.0.0",
-  "description": "React Node.js app for person detection using PyTorch",
-  "main": "./server.js",
+  "description": "Full-stack Person Detection App with React frontend and Node.js backend using PyTorch",
+  "main": "server/server.js",
   "homepage": ".",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "cd server && npm start",
+    "dev": "cd server && npm run dev",
     "client": "cd client && npm start",
     "client-install": "cd client && npm install",
+    "server-install": "cd server && npm install",
     "build": "cd client && npm run build",
-    "heroku-postbuild": "npm run client-install && npm run build",
-    "railway-build": "npm run client-install && npm run build",
-    "render-build": "npm run client-install && npm run build",
-    "render-start": "cd /opt/render/project && node server.js",
-    "deploy:railway": "echo 'Go to https://railway.app and deploy from GitHub'",
-    "deploy:render": "echo 'Go to https://render.com and create Web Service'",
-    "deploy:vercel": "vercel",
-    "deploy:free": "bash deploy-free.sh"
+    "install-all": "npm run server-install && npm run client-install",
+    "test": "cd test-scripts && python test_backend.py",
+    "train": "cd running-scripts && python train_person.py",
+    "detect": "cd running-scripts && python detect_person.py",
+    "deploy:render": "cd server && npm run deploy:render",
+    "deploy:railway": "cd server && npm run deploy:railway",
+    "deploy:vercel": "cd server && npm run deploy:vercel"
   },
   "engines": {
     "node": "18.x",
@@ -27,18 +27,18 @@
     "type": "git",
     "url": "https://github.com/manishnegi120491/obejctIdentifyApp.git"
   },
-  "dependencies": {
-    "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1",
-    "cors": "^2.8.5",
-    "python-shell": "^5.0.0",
-    "path": "^0.12.7",
-    "fs-extra": "^11.1.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-  "keywords": ["person-detection", "pytorch", "react", "nodejs"],
-  "author": "",
-  "license": "MIT"
+  "keywords": [
+    "person-detection",
+    "pytorch",
+    "react",
+    "nodejs",
+    "computer-vision",
+    "ai"
+  ],
+  "author": "Manish Negi",
+  "license": "MIT",
+  "workspaces": [
+    "client",
+    "server"
+  ]
 }
