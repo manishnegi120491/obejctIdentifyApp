@@ -16,7 +16,6 @@
     "train": "cd running-scripts && python train_person.py",
     "detect": "cd running-scripts && python detect_person.py",
     "deploy:render": "cd server && npm run deploy:render",
-    "deploy:railway": "cd server && npm run deploy:railway",
     "deploy:vercel": "cd server && npm run deploy:vercel"
   },
   "engines": {

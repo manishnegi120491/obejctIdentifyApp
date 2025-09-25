@@ -150,7 +150,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
       const { exec } = require('child_process');
       
       // Use python3 for Railway deployment, python for local Windows
-      const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
+      const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
       exec(`${pythonCmd} ../running-scripts/detect_person.py "${uploadedFile.filename}"`, (error, stdout, stderr) => {
         clearTimeout(timeoutId); // Clear the timeout
         if (error) {
@@ -349,7 +349,7 @@ app.get('/api/test-backend', (req, res) => {
   
   const { exec } = require('child_process');
   
-  const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
+  const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
   exec(`${pythonCmd} ../test-scripts/test_backend.py`, (error, stdout, stderr) => {
     if (error) {
       console.error('Backend test error:', error);
@@ -376,7 +376,7 @@ app.get('/api/simple-test', (req, res) => {
   const { exec } = require('child_process');
   
   // First check if python exists (Windows uses 'python', Linux uses 'python3')
-  const pythonCmd = process.env.RAILWAY_ENVIRONMENT ? 'python3' : (process.platform === 'win32' ? 'python' : 'python3');
+  const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
   const whichCmd = process.platform === 'win32' ? 'where' : 'which';
   exec(`${whichCmd} ${pythonCmd}`, (whichError, whichStdout, whichStderr) => {
     if (whichError) {

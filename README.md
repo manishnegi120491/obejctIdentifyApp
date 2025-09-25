@@ -132,11 +132,6 @@ cd running-scripts && python download_model.py
 npm run deploy:render
 ```
 
-### Railway
-```bash
-npm run deploy:railway
-```
-
 ### Vercel
 ```bash
 npm run deploy:vercel
