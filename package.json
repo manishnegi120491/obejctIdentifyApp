@@ -18,8 +18,8 @@
     "deploy:free": "bash deploy-free.sh"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "node": "18.x",
+    "npm": "8.x"
   },
   "dependencies": {
     "express": "^4.18.2",
