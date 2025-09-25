@@ -13,7 +13,7 @@
     "heroku-postbuild": "npm run client-install && npm run build",
     "railway-build": "npm run client-install && npm run build",
     "render-build": "npm run client-install && npm run build",
-    "render-start": "node server.js",
+    "render-start": "cd /opt/render/project && node server.js",
     "deploy:railway": "echo 'Go to https://railway.app and deploy from GitHub'",
     "deploy:render": "echo 'Go to https://render.com and create Web Service'",
     "deploy:vercel": "vercel",

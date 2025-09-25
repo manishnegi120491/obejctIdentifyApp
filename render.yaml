@@ -15,7 +15,13 @@ services:
       # Show current directory structure
       pwd
       find . -name "server.js" -type f
-    startCommand: node ./server.js
+      # Ensure we're in the right directory
+      cd /opt/render/project
+      ls -la
+      ls -la node_modules
+      # Verify express is installed
+      ls -la node_modules/express
+    startCommand: npm run render-start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
