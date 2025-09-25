@@ -12,7 +12,10 @@ services:
       # Verify installation
       ls -la
       ls -la node_modules
-    startCommand: node server.js
+      # Show current directory structure
+      pwd
+      find . -name "server.js" -type f
+    startCommand: node ./server.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV

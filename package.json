@@ -2,7 +2,7 @@
   "name": "person-detection-app",
   "version": "1.0.0",
   "description": "React Node.js app for person detection using PyTorch",
-  "main": "server.js",
+  "main": "./server.js",
   "homepage": ".",
   "scripts": {
     "start": "node server.js",
